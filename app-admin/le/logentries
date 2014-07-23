@@ -4,7 +4,7 @@
 # $Header: $
 
 EXEC="/usr/bin/le-monitor"
-PIDFILE="/var/run/logentries.pid"
+PIDFILE="/run/logentries.pid"
 
 depend() {
         use net
