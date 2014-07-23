@@ -1,0 +1,32 @@
+#!/sbin/runscript
+# Copyright 1999-2014 Gentoo Foundation
+# Distributed under the terms of the GNU General Public License v2
+# $Header: $
+
+EXEC="/usr/bin/le-monitor"
+PIDFILE="/var/run/logentries.pid"
+
+depend() {
+        use net
+        need localmount
+        after bootmisc # for /var/run
+}
+
+start() {
+        ebegin "Starting Logentries agent"
+        start-stop-daemon --start --make-pidfile --background --pidfile $PIDFILE --exec $EXEC > /dev/null &
+        eend $? "An error occurred while starting the Logentries agent"
+}
+
+stop() {
+        ebegin "Stopping Logentries agent"
+	start-stop-daemon --stop --pidfile $PIDFILE
+        eend $? "An error occurred while stopping the Logentries agent"
+}
+
+restart() {
+        ebegin "Restarting Logentries"
+        svc_stop
+        svc_start
+        eend $? "An error occurred while restarting the Logentries agent"
+}
